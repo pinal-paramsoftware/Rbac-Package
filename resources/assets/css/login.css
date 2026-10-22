@@ -1,0 +1,419 @@
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --light-color: #f8f9fa;
+    --success-color: #4cc9f0;
+    --error-color: #f72585;
+
+}
+
+  /*  body:not(.ready) .auth-screen {
+        display: none !important;
+    }*/
+
+body {
+    min-width: 100%;
+    background-color: #fff !important;
+    overflow-y: hidden;
+    min-height: 100vh !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    width: 440px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px #6c757d !important;
+    padding: 30px;
+    background: #fff;
+}
+
+.form-control {
+    border: 1px solid #CED4DA;
+    padding-left: 10px !important;
+    height: 48px;
+    border-radius: 10px;
+}
+
+.login-title {
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+
+ 
+
+.login-btn {
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.forgot-link {
+    font-size: 14px;
+    text-decoration: none;
+}
+
+
+.otp-container, .otp-mobile-container, .otp-2f-container {
+    max-width: 500px;
+    width: 100%;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    padding: 0;
+}
+ 
+ 
+
+.otp-inputs {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+ /* OTP Inputs - unified for email and mobile */
+.otp-input,
+.otp-input-mobile, .otp-input-2FA {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #e1e5eb;
+    border-radius: 10px;
+    transition: all 0.2s;
+    background-color: #fafbfc;
+}
+
+    .otp-input:focus,
+    .otp-input-mobile:focus,
+    .otp-input-2FA:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        background-color: #fff;
+    }
+
+
+    .otp-input.filled, .otp-input-2FA.filled ,
+    .otp-input-mobile.filled {
+        border-color: var(--success-color);
+        background-color: rgba(76, 201, 240, 0.05);
+    }
+
+
+
+
+.btn-verify, .btn-verify-mobile, .btn-verify-2FA {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border: none;
+    padding: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    width: 100%;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+    .btn-verify:hover, .btn-verify-mobile:hover, .btn-verify-2FA:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+.resend-option {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.resend-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.resend-link:hover {
+    text-decoration: underline;
+}
+
+.resend-link.disabled {
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.phone-number {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.instructions {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+#twoFactorVerifyContainer .otp-inputs {
+    justify-content: center;
+    gap: 12px;
+}
+
+
+
+/* ===============================
+   AUTH SCREEN VISIBILITY CONTROL
+================================ */
+
+.auth-screen {
+    display: none !important;
+    width: 100%;
+    min-height: 100vh;
+}
+
+    .auth-screen.active {
+        display: flex !important;
+    }
+
+ 
+
+/* Messages overlay instead of pushing layout */
+#captchaErrorMsg {
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right:0;
+    margin-bottom: 0;
+}
+
+/* ==========================
+   TOASTR FIX – FORCE COLORS
+========================== */
+
+#toast-container > div {
+    opacity: 1 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    border-radius: 6px;
+    padding: 15px 15px 15px 50px;
+}
+
+/* SUCCESS */
+.toast-success {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+}
+
+/* ERROR */
+.toast-error {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+}
+
+/* WARNING */
+.toast-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+/* INFO */
+.toast-info {
+    background-color: #17a2b8 !important;
+    color: #ffffff !important;
+}
+
+/* Message text */
+.toast-message {
+    color: inherit !important;
+    font-weight: 500;
+}
+
+/* Title (if used) */
+.toast-title {
+    color: inherit !important;
+    font-weight: 600;
+}
+
+/* Close button */
+.toast-close-button {
+    color: inherit !important;
+    opacity: .9;
+}
+
+.toast-close-button:hover {
+    opacity: 1;
+}
+
+.input-icon {
+    position: absolute;
+    top:37%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 18px;
+} 
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa;
+}
+
+
+/* ==================================================
+   MOBILE RESPONSIVE OVERRIDES (SAFE ADDITIONS ONLY)
+================================================== */
+
+/* Allow scrolling on mobile (keyboard friendly) */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto !important;
+        align-items: flex-start;
+    }
+}
+
+/* ===============================
+   LOGIN CARD RESPONSIVE
+================================ */
+@media (max-width: 576px) {
+    .login-card {
+        width: 100% !important;
+        max-width: 100%;
+        padding: 20px;
+        margin: 15px;
+    }
+
+    .auth-screen {
+        align-items: flex-start !important;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .otp-container,
+    .otp-mobile-container,
+    .otp-2f-container {
+        margin: 15px;
+        border-radius: 16px;
+    }
+}
+
+ 
+ 
+
+/* ===============================
+   OTP INPUTS – SMALL SCREENS
+================================ */
+ 
+
+@media (max-width: 480px) {
+    .otp-input,
+    .otp-input-mobile,
+    .otp-input-2FA {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+    }
+
+    .otp-inputs {
+        justify-content: center;
+        gap: 8px;
+    }
+}
+
+/* ===============================
+   VERY SMALL DEVICES (≤ 360px)
+================================ */
+@media (max-width: 360px) {
+    .otp-input,
+    .otp-input-mobile,
+    .otp-input-2FA {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    p {
+        font-size: 0.85rem;
+    }
+}
+
+/* ===============================
+   BUTTON TOUCH FRIENDLY
+================================ */
+@media (max-width: 576px) {
+    .btn,
+    .login-btn,
+    .btn-verify,
+    .btn-verify-mobile,
+    .btn-verify-2FA {
+        min-height: 36px;
+        font-size: 15px;
+    }
+}
+
+/* ===============================
+   QR CODE CENTERING
+================================ */
+@media (max-width: 576px) {
+    .qr-code {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .qr-instructions {
+        font-size: 0.9rem;
+    }
+}
+
+.field-wrapper {
+    padding-bottom: 15px; /* reserve space for error */
+    
+}
+
+.field-error {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    top:80%;
+    
+    
+}
+
+
+
+@media (max-width: 767px) {
+    #captchaErrorMsg {
+        text-align: center;
+        /* top: 25%; */
+        left: 66%;
+        margin-top: -6%;
+    }
+}
+
+@media (max-width: 570px) {
+    #captchaErrorMsg {
+        text-align: center;
+        left: 62%;
+        margin-top: -6%;
+        
+    }
+}
+
+@media (max-width: 400px) {
+    #captchaErrorMsg {
+        text-align: center;
+        left: 50%;
+        margin-top: -6%;
+        left: auto;
+    }
+}
+
