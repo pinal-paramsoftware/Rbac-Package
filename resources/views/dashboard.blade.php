@@ -1,4 +1,4 @@
-@extends(config('rbac-suite.layout', 'rbac-suite::layouts.master'))
+@extends(\Parth\LaravelRbacSuite\RbacSuite::getLayout())
 
 @section('title') Dashboard @endsection
 

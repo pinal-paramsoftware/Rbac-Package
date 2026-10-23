@@ -22,7 +22,7 @@ class InstallCommand extends Command
                             {--publish-config : Publish package configuration files}
                             {--publish-controllers : Publish customizable controllers to app/Http/Controllers/Rbac}
                             {--publish-models : Publish customizable models to app/Models/Rbac}
-                            {--publish-views : Publish customizable views to resources/views/vendor/rbac-suite}
+                            {--publish-views : Publish customizable views directly to resources/views}
                             {--publish-routes : Publish customizable routes to routes/rbac.php}
                             {--publish-migrations : Publish database migrations to database/migrations}
                             {--with-migrations : Alias for --publish-migrations}
@@ -152,7 +152,7 @@ class InstallCommand extends Command
         }
 
         if ($publishViews && ! $publishCore) {
-            $this->publishTag('rbac-suite-views', 'views (resources/views/vendor/rbac-suite)', $force);
+            $this->publishTag('rbac-suite-views', 'views directly to resources/views', $force);
         }
 
         if ($publishRoutes && ! $publishCore) {

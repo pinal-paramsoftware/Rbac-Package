@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Parth\LaravelRbacSuite\Support\RbacAsset;
 use Parth\LaravelRbacSuite\Support\RbacControllerResolver;
 use Parth\LaravelRbacSuite\Support\RbacModelResolver;
+use Parth\LaravelRbacSuite\Support\RbacViewResolver;
 
 if (! function_exists('rbac_asset')) {
     /**
@@ -31,5 +34,32 @@ if (! function_exists('rbac_model')) {
     function rbac_model(string $key): string
     {
         return RbacModelResolver::resolve($key);
+    }
+}
+
+if (! function_exists('rbac_view')) {
+    /**
+     * Resolve and render an active RBAC view, preferring direct host views.
+     *
+     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $mergeData
+     */
+    function rbac_view(?string $view = null, array $data = [], array $mergeData = []): View|Factory
+    {
+        if ($view === null) {
+            return app('view');
+        }
+
+        return RbacViewResolver::make($view, $data, $mergeData);
+    }
+}
+
+if (! function_exists('rbac_view_name')) {
+    /**
+     * Resolve the active RBAC view name string, preferring direct host views.
+     */
+    function rbac_view_name(string $view): string
+    {
+        return RbacViewResolver::resolve($view);
     }
 }

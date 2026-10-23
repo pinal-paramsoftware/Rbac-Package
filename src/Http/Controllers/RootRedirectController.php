@@ -40,9 +40,10 @@ class RootRedirectController extends BaseController
             return redirect()->route('dashboard');
         }
 
-        // 3. Fallback to bundled dashboard view if available
-        if (view()->exists('rbac-suite::dashboard')) {
-            return view('rbac-suite::dashboard');
+        // 3. Fallback to resolved dashboard view if available
+        $dashboardView = rbac_view_name('dashboard');
+        if (view()->exists($dashboardView)) {
+            return view($dashboardView);
         }
 
         // 4. Default safe fallback

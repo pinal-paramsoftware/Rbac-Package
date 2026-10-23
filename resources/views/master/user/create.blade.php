@@ -9,7 +9,7 @@
 @section('title', $isEditMode ? 'Edit User' : 'Create User')
 
 @section('content')
-    @component('rbac-suite::common-components.breadcrumb')
+    @component(rbac_view_name('common-components.breadcrumb'))
         @slot('pagetitle')
             User Master
         @endslot

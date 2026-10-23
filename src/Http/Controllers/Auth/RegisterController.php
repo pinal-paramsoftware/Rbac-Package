@@ -75,11 +75,7 @@ class RegisterController extends BaseController
             return redirect()->route('login')->with('error', 'Registration is currently disabled.');
         }
 
-        $view = view()->exists('rbac-suite::auth.register')
-            ? 'rbac-suite::auth.register'
-            : 'auth.register';
-
-        return view($view);
+        return rbac_view('auth.register');
     }
 
     /**

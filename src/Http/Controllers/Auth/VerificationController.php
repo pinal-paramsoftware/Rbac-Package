@@ -49,10 +49,6 @@ class VerificationController extends BaseController
             return redirect($this->redirectPath());
         }
 
-        $view = view()->exists('rbac-suite::auth.verify')
-            ? 'rbac-suite::auth.verify'
-            : 'auth.verify';
-
-        return view($view);
+        return rbac_view('auth.verify');
     }
 }

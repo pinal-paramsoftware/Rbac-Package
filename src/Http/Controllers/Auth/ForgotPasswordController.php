@@ -17,10 +17,6 @@ class ForgotPasswordController extends BaseController
      */
     public function showLinkRequestForm()
     {
-        $view = view()->exists('rbac-suite::auth.passwords.email')
-            ? 'rbac-suite::auth.passwords.email'
-            : 'auth.passwords.email';
-
-        return view($view);
+        return rbac_view('auth.passwords.email');
     }
 }

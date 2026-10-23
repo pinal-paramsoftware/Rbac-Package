@@ -35,11 +35,7 @@ class ResetPasswordController extends BaseController
      */
     public function showResetForm(Request $request, $token = null)
     {
-        $view = view()->exists('rbac-suite::auth.passwords.reset')
-            ? 'rbac-suite::auth.passwords.reset'
-            : 'auth.passwords.reset';
-
-        return view($view)->with(
+        return rbac_view('auth.passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }

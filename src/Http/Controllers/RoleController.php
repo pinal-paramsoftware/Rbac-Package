@@ -20,7 +20,7 @@ class RoleController extends BaseController
     {
         $roles = Role::with('permissions')->get();
 
-        return view('rbac-suite::roles.index', compact('roles'));
+        return rbac_view('roles.index', compact('roles'));
     }
 
     /**
@@ -39,7 +39,7 @@ class RoleController extends BaseController
             return array_pop($parts);
         })->unique()->sort()->values();
 
-        return view('rbac-suite::roles.create', compact('permissions', 'operations'));
+        return rbac_view('roles.create', compact('permissions', 'operations'));
     }
 
     /**
@@ -104,7 +104,7 @@ class RoleController extends BaseController
         $roleId = $this->resolveEncryptedId($id, 'role');
         $role = Role::with('permissions')->findOrFail($roleId);
 
-        return view('rbac-suite::roles.show', compact('role'));
+        return rbac_view('roles.show', compact('role'));
     }
 
     /**
@@ -127,7 +127,7 @@ class RoleController extends BaseController
 
         $rolePermissions = $role->permissions->pluck('name')->toArray();
 
-        return view('rbac-suite::roles.edit', compact(
+        return rbac_view('roles.edit', compact(
             'role',
             'permissions',
             'operations',

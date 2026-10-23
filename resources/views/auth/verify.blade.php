@@ -1,4 +1,4 @@
-@extends(view()->exists('layouts.master-without-nav') ? 'layouts.master-without-nav' : 'rbac-suite::layouts.master-without-nav')
+@extends(rbac_view_name('layouts.master-without-nav'))
 @section('title')
     Verify Your Email Address
 @endsection

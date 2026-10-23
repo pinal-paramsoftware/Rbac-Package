@@ -19,6 +19,7 @@ use Parth\LaravelRbacSuite\Models\Role;
 use Parth\LaravelRbacSuite\RbacSuiteServiceProvider;
 use Parth\LaravelRbacSuite\Support\RbacControllerResolver;
 use Parth\LaravelRbacSuite\Support\RbacModelResolver;
+use Parth\LaravelRbacSuite\Support\RbacViewResolver;
 use Parth\LaravelRbacSuite\Tests\TestCase;
 
 class PublishingAndCustomizationTest extends TestCase
@@ -124,7 +125,7 @@ class PublishingAndCustomizationTest extends TestCase
         $this->assertContains(app_path('Models/Rbac'), array_values($modelPaths));
 
         $viewPaths = RbacSuiteServiceProvider::pathsToPublish(RbacSuiteServiceProvider::class, 'rbac-suite-views');
-        $this->assertContains(resource_path('views/vendor/rbac-suite'), array_values($viewPaths));
+        $this->assertContains(resource_path('views'), array_values($viewPaths));
 
         $routePaths = RbacSuiteServiceProvider::pathsToPublish(RbacSuiteServiceProvider::class, 'rbac-suite-routes');
         $this->assertContains(base_path('routes/rbac.php'), array_values($routePaths));
@@ -173,25 +174,26 @@ class PublishingAndCustomizationTest extends TestCase
     }
 
     /**
-     * Test 6: Verify published views take precedence over vendor fallback views.
+     * Test 6: Verify published direct host views take precedence over vendor fallback views.
      */
     public function test_published_views_take_precedence(): void
     {
         // Default vendor view resolves
         $this->assertTrue(View::exists('rbac-suite::dashboard'));
 
-        // If a view path is prepended (mimicking published views in resources/views/vendor/rbac-suite)
+        // Direct host view in resources/views takes precedence
         $customViewDir = $this->tempTestDir.'/views';
-        File::makeDirectory($customViewDir.'/vendor/rbac-suite', 0755, true);
+        File::makeDirectory($customViewDir, 0755, true);
         File::put(
-            $customViewDir.'/vendor/rbac-suite/custom-test.blade.php',
-            '<h1>Published View Content</h1>'
+            $customViewDir.'/custom-test.blade.php',
+            '<h1>Published Host View Content</h1>'
         );
 
-        View::addNamespace('rbac-suite', $customViewDir.'/vendor/rbac-suite');
-        $this->assertTrue(View::exists('rbac-suite::custom-test'));
-        $rendered = View::make('rbac-suite::custom-test')->render();
-        $this->assertStringContainsString('Published View Content', $rendered);
+        View::addLocation($customViewDir);
+        $this->assertTrue(View::exists('custom-test'));
+        $this->assertEquals('custom-test', RbacViewResolver::resolve('custom-test'));
+        $rendered = rbac_view('custom-test')->render();
+        $this->assertStringContainsString('Published Host View Content', $rendered);
     }
 
     /**

@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-    @component('rbac-suite::common-components.breadcrumb')
+    @component(rbac_view_name('common-components.breadcrumb'))
         @slot('pagetitle')
             Masters
         @endslot

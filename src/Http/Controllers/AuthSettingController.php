@@ -44,7 +44,7 @@ class AuthSettingController extends BaseController
 
         $title = 'Auth-Settings';
 
-        return view('rbac-suite::master.AuthSettings.setting', compact('title'));
+        return rbac_view('master.AuthSettings.setting', compact('title'));
     }
 
     /* =========================
@@ -315,7 +315,7 @@ class AuthSettingController extends BaseController
             $fromAddress = (string) config('mail.from.address');
             $fromName = (string) config('mail.from.name');
 
-            $emailView = view()->exists('rbac-suite::emails.smtp-test') ? 'rbac-suite::emails.smtp-test' : 'emails.smtp-test';
+            $emailView = rbac_view_name('emails.smtp-test');
             Mail::send($emailView, [], function ($message) use ($recipientEmail, $fromAddress, $fromName): void {
                 if ($fromAddress !== '' && method_exists($message, 'from')) {
                     $message->from($fromAddress, $fromName !== '' ? $fromName : null);

@@ -23,7 +23,7 @@ class PermissionController extends BaseController
     {
         $permissions = Permission::get();
 
-        return view('rbac-suite::permissions.index', compact('permissions'));
+        return rbac_view('permissions.index', compact('permissions'));
     }
 
     /**
@@ -31,7 +31,7 @@ class PermissionController extends BaseController
      */
     public function create(): View
     {
-        return view('rbac-suite::permissions.create');
+        return rbac_view('permissions.create');
     }
 
     /**
@@ -128,7 +128,7 @@ class PermissionController extends BaseController
             return str_replace($baseName.'-', '', $perm->name);
         })->toArray();
 
-        return view('rbac-suite::permissions.edit', compact('permission', 'baseName', 'operation', 'operations'));
+        return rbac_view('permissions.edit', compact('permission', 'baseName', 'operation', 'operations'));
     }
 
     /**
@@ -329,7 +329,7 @@ class PermissionController extends BaseController
     {
         $permission = $this->resolvePermissionModel($id);
 
-        return view('rbac-suite::permissions.show', compact('permission'));
+        return rbac_view('permissions.show', compact('permission'));
     }
 
     /**

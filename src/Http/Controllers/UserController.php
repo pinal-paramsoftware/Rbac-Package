@@ -167,7 +167,7 @@ class UserController extends BaseController
                 ->make(true);
         }
 
-        return view('rbac-suite::master.user.index');
+        return rbac_view('master.user.index');
     }
 
     /**
@@ -182,7 +182,7 @@ class UserController extends BaseController
         $isEdit = false;
         $selectedRole = '';
 
-        return view('rbac-suite::master.user.create', compact('user', 'roles', 'isEdit', 'selectedRole'));
+        return rbac_view('master.user.create', compact('user', 'roles', 'isEdit', 'selectedRole'));
     }
 
     /**
@@ -301,7 +301,7 @@ class UserController extends BaseController
             ]);
         }
 
-        return view('rbac-suite::master.user.create', [
+        return rbac_view('master.user.create', [
             'user' => $user,
             'roles' => Role::orderBy('name')->get(),
             'isEdit' => true,
@@ -322,7 +322,7 @@ class UserController extends BaseController
         $isEdit = true;
         $selectedRole = $user->roles->first()?->name ?? '';
 
-        return view('rbac-suite::master.user.create', compact('user', 'roles', 'isEdit', 'selectedRole'));
+        return rbac_view('master.user.create', compact('user', 'roles', 'isEdit', 'selectedRole'));
     }
 
     /**

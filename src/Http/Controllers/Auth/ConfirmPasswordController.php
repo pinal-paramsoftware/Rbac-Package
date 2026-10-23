@@ -41,10 +41,6 @@ class ConfirmPasswordController extends BaseController
      */
     public function showConfirmForm()
     {
-        $view = view()->exists('rbac-suite::auth.passwords.confirm')
-            ? 'rbac-suite::auth.passwords.confirm'
-            : 'auth.passwords.confirm';
-
-        return view($view);
+        return rbac_view('auth.passwords.confirm');
     }
 }

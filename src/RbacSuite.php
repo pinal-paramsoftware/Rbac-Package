@@ -3,6 +3,7 @@
 namespace Parth\LaravelRbacSuite;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 
 class RbacSuite
@@ -10,7 +11,7 @@ class RbacSuite
     /**
      * Package version.
      */
-    public const VERSION = '1.0.5';
+    public const VERSION = '1.0.6';
 
     /**
      * Resolve the active controller class.
@@ -87,13 +88,7 @@ class RbacSuite
      */
     public function layout(): string
     {
-        $layout = (string) config('rbac-suite.layout', 'rbac-suite::layouts.master');
-
-        if (! empty($layout) && app('view')->exists($layout)) {
-            return $layout;
-        }
-
-        return 'rbac-suite::layouts.master';
+        return Support\RbacViewResolver::resolveLayout();
     }
 
     /**
@@ -101,12 +96,25 @@ class RbacSuite
      */
     public static function getLayout(): string
     {
-        $layout = (string) config('rbac-suite.layout', 'rbac-suite::layouts.master');
+        return Support\RbacViewResolver::resolveLayout();
+    }
 
-        if (! empty($layout) && app('view')->exists($layout)) {
-            return $layout;
-        }
+    /**
+     * Resolve the active view name preferring direct host views.
+     */
+    public function resolveView(string $view): string
+    {
+        return Support\RbacViewResolver::resolve($view);
+    }
 
-        return 'rbac-suite::layouts.master';
+    /**
+     * Render the resolved view instance.
+     *
+     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $mergeData
+     */
+    public function view(string $view, array $data = [], array $mergeData = []): View
+    {
+        return Support\RbacViewResolver::make($view, $data, $mergeData);
     }
 }

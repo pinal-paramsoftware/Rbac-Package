@@ -12,6 +12,6 @@ class DashboardController extends BaseController
      */
     public function index(Request $request): View
     {
-        return view('rbac-suite::dashboard');
+        return rbac_view('dashboard');
     }
 }

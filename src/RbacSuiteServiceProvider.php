@@ -10,6 +10,7 @@ use Parth\LaravelRbacSuite\Models\Permission;
 use Parth\LaravelRbacSuite\Models\Role;
 use Parth\LaravelRbacSuite\Support\RbacControllerResolver;
 use Parth\LaravelRbacSuite\Support\RbacModelResolver;
+use Parth\LaravelRbacSuite\Support\RbacViewResolver;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
@@ -147,9 +148,9 @@ class RbacSuiteServiceProvider extends ServiceProvider
             __DIR__.'/../stubs/models' => app_path('Models/Rbac'),
         ], 'rbac-suite-models');
 
-        // 4. Publish Views
+        // 4. Publish Views Directly to Application resources/views
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/rbac-suite'),
+            __DIR__.'/../resources/views' => resource_path('views'),
         ], 'rbac-suite-views');
 
         // 5. Publish Dedicated Route File
@@ -177,7 +178,7 @@ class RbacSuiteServiceProvider extends ServiceProvider
             __DIR__.'/../config/rbac-suite.php' => config_path('rbac-suite.php'),
             __DIR__.'/../config/auth-pipeline.php' => config_path('auth-pipeline.php'),
             __DIR__.'/../routes/rbac.php' => base_path('routes/rbac.php'),
-            __DIR__.'/../resources/views' => resource_path('views/vendor/rbac-suite'),
+            __DIR__.'/../resources/views' => resource_path('views'),
             __DIR__.'/../resources/assets' => public_path('vendor/rbac-suite'),
         ], 'rbac-suite');
 
@@ -188,7 +189,7 @@ class RbacSuiteServiceProvider extends ServiceProvider
             __DIR__.'/../stubs/controllers' => app_path('Http/Controllers/Rbac'),
             __DIR__.'/../stubs/models' => app_path('Models/Rbac'),
             __DIR__.'/../routes/rbac.php' => base_path('routes/rbac.php'),
-            __DIR__.'/../resources/views' => resource_path('views/vendor/rbac-suite'),
+            __DIR__.'/../resources/views' => resource_path('views'),
             __DIR__.'/../resources/assets' => public_path('vendor/rbac-suite'),
             __DIR__.'/../database/migrations' => database_path('migrations'),
             __DIR__.'/../stubs/seeders' => database_path('seeders'),
@@ -200,13 +201,22 @@ class RbacSuiteServiceProvider extends ServiceProvider
      */
     protected function registerResources(): void
     {
-        // Load Namespaced Views (published views take precedence automatically)
+        // Load Namespaced Views (published vendor views take precedence automatically)
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'rbac-suite');
 
-        // Layout fallback validation
+        // Prepend direct host view directory to rbac-suite namespace so host direct views
+        // take priority even when references specify the rbac-suite:: namespace
+        $this->callAfterResolving('view', function ($view) {
+            if (function_exists('resource_path') && is_dir(resource_path('views'))) {
+                $view->prependNamespace('rbac-suite', resource_path('views'));
+            }
+        });
+
+        // Synchronize layout configuration with safe fallback
+        $resolvedLayout = RbacViewResolver::resolveLayout();
         $configuredLayout = config('rbac-suite.layout');
-        if (! empty($configuredLayout) && ! $this->app['view']->exists($configuredLayout)) {
-            config(['rbac-suite.layout' => 'rbac-suite::layouts.master']);
+        if (empty($configuredLayout) || ! $this->app['view']->exists($configuredLayout)) {
+            config(['rbac-suite.layout' => $resolvedLayout]);
         }
 
         // Automatically load package migrations if running in console, enabled,

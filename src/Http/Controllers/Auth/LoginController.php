@@ -51,9 +51,7 @@ class LoginController extends BaseController
 
     protected function authView(string $viewName, array $data = [])
     {
-        $namespaced = 'rbac-suite::'.$viewName;
-
-        return view(view()->exists($namespaced) ? $namespaced : $viewName, $data);
+        return rbac_view($viewName, $data);
     }
 
     protected Google2FA $google2fa;
@@ -85,9 +83,7 @@ class LoginController extends BaseController
     {
         $registrationEnabled = AuthSetting::isRegistrationEnabled();
 
-        $view = view()->exists('rbac-suite::auth.login') ? 'rbac-suite::auth.login' : 'auth.login';
-
-        return view($view, compact('registrationEnabled'));
+        return rbac_view('auth.login', compact('registrationEnabled'));
     }
 
     public function generateCaptcha()
@@ -1491,7 +1487,7 @@ class LoginController extends BaseController
         $fromAddress = (string) config('mail.from.address');
         $fromName = (string) config('mail.from.name');
 
-        $emailView = view()->exists('rbac-suite::emails.otp') ? 'rbac-suite::emails.otp' : 'emails.otp';
+        $emailView = rbac_view_name('emails.otp');
 
         Mail::send($emailView, [
             'user' => $user,
